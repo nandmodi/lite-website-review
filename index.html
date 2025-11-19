@@ -16,25 +16,29 @@
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
         }
         
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
         .page {
             display: none;
+            flex: 1;
             background: white;
-            border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-top: 20px;
+            padding: 20px;
+            overflow: auto;
         }
         
         .active {
-            display: block;
+            display: flex;
+            flex-direction: column;
         }
         
         h1 {
@@ -103,9 +107,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 5px 5px 0 0;
             flex-wrap: wrap;
             gap: 15px;
+            flex-shrink: 0;
         }
         
         .counter-container {
@@ -124,8 +128,13 @@
             transition: all 0.3s;
         }
         
-        .counter.highlight {
+        .counter.highlight-inc {
             background: rgba(46, 204, 113, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .counter.highlight-dec {
+            background: rgba(231, 76, 60, 0.3);
             transform: scale(1.05);
         }
         
@@ -150,7 +159,7 @@
         
         .website-frame {
             width: 100%;
-            height: calc(100vh - 200px);
+            flex: 1;
             border: none;
             background: white;
         }
@@ -241,34 +250,6 @@
             text-align: center;
         }
         
-        .bottom-stripe {
-            background: #34495e;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            border-radius: 0 0 5px 5px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .bottom-counter {
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            min-width: 100px;
-        }
-        
-        .bottom-counter-value {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .bottom-counter-label {
-            font-size: 12px;
-        }
-        
         .submission-status {
             text-align: center;
             padding: 10px;
@@ -289,77 +270,85 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        
+        .login-form {
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Login Page -->
         <div id="login-page" class="page active">
-            <h1>Website Review Login</h1>
-            
-            <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="review-by">Review By</label>
-                <input type="text" id="review-by" placeholder="Enter reviewer name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="enterprise-id">Enterprise ID</label>
-                <input type="text" id="enterprise-id" placeholder="Enter Enterprise ID" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="team-id">Team ID</label>
-                <input type="text" id="team-id" placeholder="Enter Team ID" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="website-url">Website URL</label>
-                <input type="text" id="website-url" placeholder="Enter website URL" required>
-            </div>
-            
-            <button id="go-button" class="btn btn-center">Go to Review</button>
-            
-            <div class="keyboard-shortcuts">
-                <h3>Keyboard Shortcuts (on next page)</h3>
-                <div class="shortcut-item">
-                    <div class="key">1</div>
-                    <div class="shortcut-description">Increase Stock count</div>
+            <div class="login-form">
+                <h1>Website Review Login</h1>
+                
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" required>
                 </div>
-                <div class="shortcut-item">
-                    <div class="key">2</div>
-                    <div class="shortcut-description">Increase Raw count</div>
+                
+                <div class="form-group">
+                    <label for="review-by">Review By</label>
+                    <input type="text" id="review-by" placeholder="Enter reviewer name" required>
                 </div>
-                <div class="shortcut-item">
-                    <div class="key">3</div>
-                    <div class="shortcut-description">Increase Sequence Issue count</div>
+                
+                <div class="form-group">
+                    <label for="enterprise-id">Enterprise ID</label>
+                    <input type="text" id="enterprise-id" placeholder="Enter Enterprise ID" required>
                 </div>
-                <div class="shortcut-item">
-                    <div class="key">4</div>
-                    <div class="shortcut-description">Increase Tilt count</div>
+                
+                <div class="form-group">
+                    <label for="team-id">Team ID</label>
+                    <input type="text" id="team-id" placeholder="Enter Team ID" required>
                 </div>
-                <div class="shortcut-item">
-                    <div class="key">5</div>
-                    <div class="shortcut-description">Increase Reflection count</div>
+                
+                <div class="form-group">
+                    <label for="website-url">Website URL</label>
+                    <input type="text" id="website-url" placeholder="Enter website URL" required>
                 </div>
-                <div class="shortcut-item">
-                    <div class="key">6</div>
-                    <div class="shortcut-description">Increase Blur count</div>
-                </div>
-                <div class="shortcut-item">
-                    <div class="key">7</div>
-                    <div class="shortcut-description">Increase Photo NA count</div>
-                </div>
-                <div class="shortcut-item">
-                    <div class="key key-shift">Shift + Key</div>
-                    <div class="shortcut-description">Decrease the corresponding count</div>
-                </div>
-                <div class="shortcut-help">
-                    Make sure to click anywhere on the page (not the iframe) to activate keyboard shortcuts
+                
+                <button id="go-button" class="btn btn-center">Go to Review</button>
+                
+                <div class="keyboard-shortcuts">
+                    <h3>Keyboard Shortcuts (on next page)</h3>
+                    <div class="shortcut-item">
+                        <div class="key">1</div>
+                        <div class="shortcut-description">Increase Stock count</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div class="key">2</div>
+                        <div class="shortcut-description">Increase Raw count</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div class="key">3</div>
+                        <div class="shortcut-description">Increase Sequence Issue count</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div class="key">4</div>
+                        <div class="shortcut-description">Increase Tilt count</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div class="key">5</div>
+                        <div class="shortcut-description">Increase Reflection count</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div class="key">6</div>
+                        <div class="shortcut-description">Increase Blur count</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div class="key">7</div>
+                        <div class="shortcut-description">Increase Photo NA count</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div class="key key-shift">Shift + Key</div>
+                        <div class="shortcut-description">Decrease the corresponding count</div>
+                    </div>
+                    <div class="shortcut-help">
+                        Make sure to click anywhere on the page (not the iframe) to activate keyboard shortcuts
+                    </div>
                 </div>
             </div>
         </div>
@@ -401,33 +390,6 @@
             </div>
             
             <iframe id="website-frame" class="website-frame" src=""></iframe>
-            
-            <div class="bottom-stripe">
-                <div class="bottom-counter">
-                    <div class="bottom-counter-value" id="bottom-raw-count">0</div>
-                    <div class="bottom-counter-label">Raw</div>
-                </div>
-                <div class="bottom-counter">
-                    <div class="bottom-counter-value" id="bottom-sequence-issue-count">0</div>
-                    <div class="bottom-counter-label">Sequence Issue</div>
-                </div>
-                <div class="bottom-counter">
-                    <div class="bottom-counter-value" id="bottom-tilt-count">0</div>
-                    <div class="bottom-counter-label">Tilt</div>
-                </div>
-                <div class="bottom-counter">
-                    <div class="bottom-counter-value" id="bottom-reflection-count">0</div>
-                    <div class="bottom-counter-label">Reflection</div>
-                </div>
-                <div class="bottom-counter">
-                    <div class="bottom-counter-value" id="bottom-blur-count">0</div>
-                    <div class="bottom-counter-label">Blur</div>
-                </div>
-                <div class="bottom-counter">
-                    <div class="bottom-counter-value" id="bottom-photo-na-count">0</div>
-                    <div class="bottom-counter-label">Photo NA</div>
-                </div>
-            </div>
         </div>
     </div>
     
@@ -484,14 +446,6 @@
         const reflectionCounter = document.getElementById('reflection-counter');
         const blurCounter = document.getElementById('blur-counter');
         const photoNaCounter = document.getElementById('photo-na-counter');
-        
-        // Bottom counter elements
-        const bottomRawCount = document.getElementById('bottom-raw-count');
-        const bottomSequenceIssueCount = document.getElementById('bottom-sequence-issue-count');
-        const bottomTiltCount = document.getElementById('bottom-tilt-count');
-        const bottomReflectionCount = document.getElementById('bottom-reflection-count');
-        const bottomBlurCount = document.getElementById('bottom-blur-count');
-        const bottomPhotoNaCount = document.getElementById('bottom-photo-na-count');
         
         // Form input elements
         const dateInput = document.getElementById('date');
@@ -586,21 +540,20 @@
             reflectionCount.textContent = counters.reflection;
             blurCount.textContent = counters.blur;
             photoNaCount.textContent = counters.photoNa;
-            
-            // Update bottom counters
-            bottomRawCount.textContent = counters.raw;
-            bottomSequenceIssueCount.textContent = counters.sequenceIssue;
-            bottomTiltCount.textContent = counters.tilt;
-            bottomReflectionCount.textContent = counters.reflection;
-            bottomBlurCount.textContent = counters.blur;
-            bottomPhotoNaCount.textContent = counters.photoNa;
         }
         
-        function highlightCounter(counterElement) {
-            counterElement.classList.add('highlight');
-            setTimeout(() => {
-                counterElement.classList.remove('highlight');
-            }, 300);
+        function highlightCounter(counterElement, isIncrease) {
+            if (isIncrease) {
+                counterElement.classList.add('highlight-inc');
+                setTimeout(() => {
+                    counterElement.classList.remove('highlight-inc');
+                }, 300);
+            } else {
+                counterElement.classList.add('highlight-dec');
+                setTimeout(() => {
+                    counterElement.classList.remove('highlight-dec');
+                }, 300);
+            }
         }
         
         function handleKeyboardShortcut(e) {
@@ -631,12 +584,12 @@
                     // Decrease counter
                     if (counters[counterKey] > 0) {
                         counters[counterKey]--;
-                        highlightCounter(counterElement);
+                        highlightCounter(counterElement, false);
                     }
                 } else {
                     // Increase counter
                     counters[counterKey]++;
-                    highlightCounter(counterElement);
+                    highlightCounter(counterElement, true);
                 }
                 
                 updateCounterDisplays();
