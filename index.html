@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Review Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .page {
+            display: none;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+        
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-center {
+            display: block;
+            margin: 30px auto 0;
+            width: 200px;
+            text-align: center;
+        }
+        
+        .top-stripe {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .counter-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        
+        .counter {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 5px;
+            min-width: 120px;
+            transition: all 0.3s;
+        }
+        
+        .counter.highlight {
+            background: rgba(46, 204, 113, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .counter-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .counter-label {
+            font-size: 14px;
+        }
+        
+        .submit-btn {
+            background: #27ae60;
+            margin-left: auto;
+        }
+        
+        .submit-btn:hover {
+            background: #219653;
+        }
+        
+        .website-frame {
+            width: 100%;
+            height: calc(100vh - 200px);
+            border: none;
+            background: white;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-cancel {
+            background: #95a5a6;
+        }
+        
+        .btn-cancel:hover {
+            background: #7f8c8d;
+        }
+        
+        .keyboard-shortcuts {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .keyboard-shortcuts h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .shortcut-item {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        
+        .key {
+            background: #2c3e50;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .key-shift {
+            background: #e74c3c;
+        }
+        
+        .shortcut-description {
+            flex: 1;
+        }
+        
+        .shortcut-help {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #7f8c8d;
+            text-align: center;
+        }
+        
+        .bottom-stripe {
+            background: #34495e;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            border-radius: 0 0 5px 5px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .bottom-counter {
+            text-align: center;
+            padding: 5px 10px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            min-width: 100px;
+        }
+        
+        .bottom-counter-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .bottom-counter-label {
+            font-size: 12px;
+        }
+        
+        .submission-status {
+            text-align: center;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .submission-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Page -->
+        <div id="login-page" class="page active">
+            <h1>Website Review Login</h1>
+            
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="review-by">Review By</label>
+                <input type="text" id="review-by" placeholder="Enter reviewer name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="enterprise-id">Enterprise ID</label>
+                <input type="text" id="enterprise-id" placeholder="Enter Enterprise ID" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="team-id">Team ID</label>
+                <input type="text" id="team-id" placeholder="Enter Team ID" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="website-url">Website URL</label>
+                <input type="text" id="website-url" placeholder="Enter website URL" required>
+            </div>
+            
+            <button id="go-button" class="btn btn-center">Go to Review</button>
+            
+            <div class="keyboard-shortcuts">
+                <h3>Keyboard Shortcuts (on next page)</h3>
+                <div class="shortcut-item">
+                    <div class="key">1</div>
+                    <div class="shortcut-description">Increase Stock count</div>
+                </div>
+                <div class="shortcut-item">
+                    <div class="key">2</div>
+                    <div class="shortcut-description">Increase Raw count</div>
+                </div>
+                <div class="shortcut-item">
+                    <div class="key">3</div>
+                    <div class="shortcut-description">Increase Sequence Issue count</div>
+                </div>
+                <div class="shortcut-item">
+                    <div class="key">4</div>
+                    <div class="shortcut-description">Increase Tilt count</div>
+                </div>
+                <div class="shortcut-item">
+                    <div class="key">5</div>
+                    <div class="shortcut-description">Increase Reflection count</div>
+                </div>
+                <div class="shortcut-item">
+                    <div class="key">6</div>
+                    <div class="shortcut-description">Increase Blur count</div>
+                </div>
+                <div class="shortcut-item">
+                    <div class="key">7</div>
+                    <div class="shortcut-description">Increase Photo NA count</div>
+                </div>
+                <div class="shortcut-item">
+                    <div class="key key-shift">Shift + Key</div>
+                    <div class="shortcut-description">Decrease the corresponding count</div>
+                </div>
+                <div class="shortcut-help">
+                    Make sure to click anywhere on the page (not the iframe) to activate keyboard shortcuts
+                </div>
+            </div>
+        </div>
+        
+        <!-- Review Page -->
+        <div id="review-page" class="page">
+            <div class="top-stripe">
+                <div class="counter-container">
+                    <div class="counter" id="stock-counter">
+                        <div class="counter-value" id="stock-count">0</div>
+                        <div class="counter-label">Stock (1)</div>
+                    </div>
+                    <div class="counter" id="raw-counter">
+                        <div class="counter-value" id="raw-count">0</div>
+                        <div class="counter-label">Raw (2)</div>
+                    </div>
+                    <div class="counter" id="sequence-issue-counter">
+                        <div class="counter-value" id="sequence-issue-count">0</div>
+                        <div class="counter-label">Sequence Issue (3)</div>
+                    </div>
+                    <div class="counter" id="tilt-counter">
+                        <div class="counter-value" id="tilt-count">0</div>
+                        <div class="counter-label">Tilt (4)</div>
+                    </div>
+                    <div class="counter" id="reflection-counter">
+                        <div class="counter-value" id="reflection-count">0</div>
+                        <div class="counter-label">Reflection (5)</div>
+                    </div>
+                    <div class="counter" id="blur-counter">
+                        <div class="counter-value" id="blur-count">0</div>
+                        <div class="counter-label">Blur (6)</div>
+                    </div>
+                    <div class="counter" id="photo-na-counter">
+                        <div class="counter-value" id="photo-na-count">0</div>
+                        <div class="counter-label">Photo NA (7)</div>
+                    </div>
+                </div>
+                <button id="submit-review" class="btn submit-btn">Submit</button>
+            </div>
+            
+            <iframe id="website-frame" class="website-frame" src=""></iframe>
+            
+            <div class="bottom-stripe">
+                <div class="bottom-counter">
+                    <div class="bottom-counter-value" id="bottom-raw-count">0</div>
+                    <div class="bottom-counter-label">Raw</div>
+                </div>
+                <div class="bottom-counter">
+                    <div class="bottom-counter-value" id="bottom-sequence-issue-count">0</div>
+                    <div class="bottom-counter-label">Sequence Issue</div>
+                </div>
+                <div class="bottom-counter">
+                    <div class="bottom-counter-value" id="bottom-tilt-count">0</div>
+                    <div class="bottom-counter-label">Tilt</div>
+                </div>
+                <div class="bottom-counter">
+                    <div class="bottom-counter-value" id="bottom-reflection-count">0</div>
+                    <div class="bottom-counter-label">Reflection</div>
+                </div>
+                <div class="bottom-counter">
+                    <div class="bottom-counter-value" id="bottom-blur-count">0</div>
+                    <div class="bottom-counter-label">Blur</div>
+                </div>
+                <div class="bottom-counter">
+                    <div class="bottom-counter-value" id="bottom-photo-na-count">0</div>
+                    <div class="bottom-counter-label">Photo NA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Submit Modal -->
+    <div id="submit-modal" class="modal">
+        <div class="modal-content">
+            <h2>Submit Review Data</h2>
+            
+            <div class="form-group">
+                <label for="total-vins">Total Vins</label>
+                <input type="number" id="total-vins" placeholder="Enter total Vins" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="remarks">Remarks</label>
+                <input type="text" id="remarks" placeholder="Enter any remarks">
+            </div>
+            
+            <div id="submission-status" class="submission-status"></div>
+            
+            <div class="modal-buttons">
+                <button id="cancel-submit" class="btn btn-cancel">Cancel</button>
+                <button id="final-submit" class="btn submit-btn">Submit Data</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginPage = document.getElementById('login-page');
+        const reviewPage = document.getElementById('review-page');
+        const goButton = document.getElementById('go-button');
+        const submitButton = document.getElementById('submit-review');
+        const submitModal = document.getElementById('submit-modal');
+        const cancelSubmit = document.getElementById('cancel-submit');
+        const finalSubmit = document.getElementById('final-submit');
+        const websiteFrame = document.getElementById('website-frame');
+        const submissionStatus = document.getElementById('submission-status');
+        
+        // Counter elements
+        const stockCount = document.getElementById('stock-count');
+        const rawCount = document.getElementById('raw-count');
+        const sequenceIssueCount = document.getElementById('sequence-issue-count');
+        const tiltCount = document.getElementById('tilt-count');
+        const reflectionCount = document.getElementById('reflection-count');
+        const blurCount = document.getElementById('blur-count');
+        const photoNaCount = document.getElementById('photo-na-count');
+        
+        // Counter container elements for highlighting
+        const stockCounter = document.getElementById('stock-counter');
+        const rawCounter = document.getElementById('raw-counter');
+        const sequenceIssueCounter = document.getElementById('sequence-issue-counter');
+        const tiltCounter = document.getElementById('tilt-counter');
+        const reflectionCounter = document.getElementById('reflection-counter');
+        const blurCounter = document.getElementById('blur-counter');
+        const photoNaCounter = document.getElementById('photo-na-counter');
+        
+        // Bottom counter elements
+        const bottomRawCount = document.getElementById('bottom-raw-count');
+        const bottomSequenceIssueCount = document.getElementById('bottom-sequence-issue-count');
+        const bottomTiltCount = document.getElementById('bottom-tilt-count');
+        const bottomReflectionCount = document.getElementById('bottom-reflection-count');
+        const bottomBlurCount = document.getElementById('bottom-blur-count');
+        const bottomPhotoNaCount = document.getElementById('bottom-photo-na-count');
+        
+        // Form input elements
+        const dateInput = document.getElementById('date');
+        const reviewByInput = document.getElementById('review-by');
+        const enterpriseIdInput = document.getElementById('enterprise-id');
+        const teamIdInput = document.getElementById('team-id');
+        const websiteUrlInput = document.getElementById('website-url');
+        const totalVinsInput = document.getElementById('total-vins');
+        const remarksInput = document.getElementById('remarks');
+        
+        // Set today's date as default
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+        
+        // Counter values
+        let counters = {
+            stock: 0,
+            raw: 0,
+            sequenceIssue: 0,
+            tilt: 0,
+            reflection: 0,
+            blur: 0,
+            photoNa: 0
+        };
+        
+        // Track if shortcuts are enabled
+        let shortcutsEnabled = true;
+        
+        // Event Listeners
+        goButton.addEventListener('click', goToReviewPage);
+        submitButton.addEventListener('click', openSubmitModal);
+        cancelSubmit.addEventListener('click', closeSubmitModal);
+        finalSubmit.addEventListener('click', submitToGoogleForm);
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', handleKeyboardShortcut);
+        
+        // Functions
+        function goToReviewPage() {
+            // Validate required fields
+            if (!dateInput.value || !reviewByInput.value || !enterpriseIdInput.value || 
+                !teamIdInput.value || !websiteUrlInput.value) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Save data to localStorage
+            const formData = {
+                date: dateInput.value,
+                reviewBy: reviewByInput.value,
+                enterpriseId: enterpriseIdInput.value,
+                teamId: teamIdInput.value,
+                websiteUrl: websiteUrlInput.value
+            };
+            
+            localStorage.setItem('reviewFormData', JSON.stringify(formData));
+            
+            // Load the website in the iframe
+            let url = websiteUrlInput.value;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+            websiteFrame.src = url;
+            
+            // Switch to review page
+            loginPage.classList.remove('active');
+            reviewPage.classList.add('active');
+            
+            // Reset counters
+            resetCounters();
+        }
+        
+        function resetCounters() {
+            counters = {
+                stock: 0,
+                raw: 0,
+                sequenceIssue: 0,
+                tilt: 0,
+                reflection: 0,
+                blur: 0,
+                photoNa: 0
+            };
+            updateCounterDisplays();
+        }
+        
+        function updateCounterDisplays() {
+            // Update top counters
+            stockCount.textContent = counters.stock;
+            rawCount.textContent = counters.raw;
+            sequenceIssueCount.textContent = counters.sequenceIssue;
+            tiltCount.textContent = counters.tilt;
+            reflectionCount.textContent = counters.reflection;
+            blurCount.textContent = counters.blur;
+            photoNaCount.textContent = counters.photoNa;
+            
+            // Update bottom counters
+            bottomRawCount.textContent = counters.raw;
+            bottomSequenceIssueCount.textContent = counters.sequenceIssue;
+            bottomTiltCount.textContent = counters.tilt;
+            bottomReflectionCount.textContent = counters.reflection;
+            bottomBlurCount.textContent = counters.blur;
+            bottomPhotoNaCount.textContent = counters.photoNa;
+        }
+        
+        function highlightCounter(counterElement) {
+            counterElement.classList.add('highlight');
+            setTimeout(() => {
+                counterElement.classList.remove('highlight');
+            }, 300);
+        }
+        
+        function handleKeyboardShortcut(e) {
+            // Only process if we're on the review page and shortcuts are enabled
+            if (!reviewPage.classList.contains('active') || !shortcutsEnabled) return;
+            
+            const key = e.key;
+            const isShiftPressed = e.shiftKey;
+            
+            // Map keys to counters
+            const keyMap = {
+                '1': {key: 'stock', element: stockCounter},
+                '2': {key: 'raw', element: rawCounter},
+                '3': {key: 'sequenceIssue', element: sequenceIssueCounter},
+                '4': {key: 'tilt', element: tiltCounter},
+                '5': {key: 'reflection', element: reflectionCounter},
+                '6': {key: 'blur', element: blurCounter},
+                '7': {key: 'photoNa', element: photoNaCounter}
+            };
+            
+            if (key in keyMap) {
+                e.preventDefault();
+                
+                const counterKey = keyMap[key].key;
+                const counterElement = keyMap[key].element;
+                
+                if (isShiftPressed) {
+                    // Decrease counter
+                    if (counters[counterKey] > 0) {
+                        counters[counterKey]--;
+                        highlightCounter(counterElement);
+                    }
+                } else {
+                    // Increase counter
+                    counters[counterKey]++;
+                    highlightCounter(counterElement);
+                }
+                
+                updateCounterDisplays();
+            }
+        }
+        
+        function openSubmitModal() {
+            // Disable keyboard shortcuts
+            shortcutsEnabled = false;
+            
+            submissionStatus.style.display = 'none';
+            submitModal.style.display = 'flex';
+            totalVinsInput.focus();
+        }
+        
+        function closeSubmitModal() {
+            // Re-enable keyboard shortcuts
+            shortcutsEnabled = true;
+            
+            submitModal.style.display = 'none';
+        }
+        
+        function submitToGoogleForm() {
+            // Validate Total Vins
+            if (!totalVinsInput.value || totalVinsInput.value < 0) {
+                alert('Please enter a valid number for Total Vins');
+                totalVinsInput.focus();
+                return;
+            }
+            
+            // Get form data from localStorage
+            const formData = JSON.parse(localStorage.getItem('reviewFormData'));
+            if (!formData) {
+                alert('No form data found. Please start over.');
+                return;
+            }
+            
+            // Prepare data for Google Form
+            const totalVins = totalVinsInput.value || '0';
+            const remarks = remarksInput.value || '';
+            
+            // Create Google Form URL with prefilled data
+            const baseUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScgNEQcfQT0racL_afa-G3Fz87N0lpfXspOMiqZB6AptqHaPg/formResponse';
+            
+            const params = new URLSearchParams({
+                'entry.1920772593': formData.date,
+                'entry.1492030820': formData.reviewBy,
+                'entry.118970267': formData.enterpriseId,
+                'entry.629761069': formData.teamId,
+                'entry.1030198039': formData.websiteUrl,
+                'entry.382120220': totalVins,
+                'entry.116830960': counters.stock.toString(),
+                'entry.1981404590': counters.raw.toString(),
+                'entry.228503452': counters.sequenceIssue.toString(),
+                'entry.1122129722': counters.tilt.toString(),
+                'entry.616982071': counters.reflection.toString(),
+                'entry.572561229': counters.blur.toString(),
+                'entry.1809758375': counters.photoNa.toString(),
+                'entry.1023639881': remarks
+            });
+            
+            const formUrl = `${baseUrl}?${params.toString()}`;
+            
+            // Submit to Google Form using a hidden iframe
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.name = 'google-form-submit';
+            document.body.appendChild(iframe);
+            
+            // Create a form and submit it
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = formUrl;
+            form.target = 'google-form-submit';
+            document.body.appendChild(form);
+            
+            // Show submission status
+            submissionStatus.textContent = 'Submitting data...';
+            submissionStatus.className = 'submission-status submission-success';
+            submissionStatus.style.display = 'block';
+            
+            // Submit the form
+            form.submit();
+            
+            // Show success message
+            setTimeout(() => {
+                submissionStatus.textContent = 'Data submitted successfully!';
+                
+                // Close modal and reset after a delay
+                setTimeout(() => {
+                    closeSubmitModal();
+                    resetForm();
+                }, 1500);
+            }, 1000);
+        }
+        
+        function resetForm() {
+            // Reset counters
+            resetCounters();
+            
+            // Clear modal inputs
+            totalVinsInput.value = '';
+            remarksInput.value = '';
+            
+            // Go back to login page
+            reviewPage.classList.remove('active');
+            loginPage.classList.add('active');
+            
+            // Clear localStorage
+            localStorage.removeItem('reviewFormData');
+        }
+    </script>
+</body>
+</html>
