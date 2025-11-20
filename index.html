@@ -339,7 +339,6 @@
                         <option value="Ankit Singh">Ankit Singh</option>
                         <option value="Vishal Singh">Vishal Singh</option>
                         <option value="Sumit Rana">Sumit Rana</option>
-                        <option value="Praveen Agarwal">Praveen Agarwal</option>
                     </select>
                 </div>
                 
@@ -475,6 +474,15 @@
             <h2>Submit Review Data</h2>
             
             <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Used">Used</option>
+                    <option value="New">New</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
                 <label for="total-vins">Total Vins</label>
                 <input type="number" id="total-vins" placeholder="Enter total Vins" min="0" required>
             </div>
@@ -529,6 +537,7 @@
         const enterpriseIdInput = document.getElementById('enterprise-id');
         const teamIdInput = document.getElementById('team-id');
         const websiteUrlInput = document.getElementById('website-url');
+        const categoryInput = document.getElementById('category');
         const totalVinsInput = document.getElementById('total-vins');
         const remarksInput = document.getElementById('remarks');
         
@@ -723,7 +732,7 @@
             
             submissionStatus.style.display = 'none';
             submitModal.style.display = 'flex';
-            totalVinsInput.focus();
+            categoryInput.focus();
         }
         
         function closeSubmitModal() {
@@ -734,7 +743,13 @@
         }
         
         function submitToGoogleForm() {
-            // Validate Total Vins
+            // Validate required fields
+            if (!categoryInput.value) {
+                alert('Please select a Category');
+                categoryInput.focus();
+                return;
+            }
+            
             if (!totalVinsInput.value || totalVinsInput.value < 0) {
                 alert('Please enter a valid number for Total Vins');
                 totalVinsInput.focus();
@@ -749,6 +764,7 @@
             }
             
             // Prepare data for Google Form
+            const category = categoryInput.value;
             const totalVins = totalVinsInput.value || '0';
             const remarks = remarksInput.value || '';
             
@@ -769,6 +785,7 @@
                 'entry.616982071': counters.reflection.toString(),
                 'entry.572561229': counters.blur.toString(),
                 'entry.1809758375': counters.photoNa.toString(),
+                'entry.935903991': category,
                 'entry.1023639881': remarks
             });
             
@@ -812,6 +829,7 @@
             resetCounters();
             
             // Clear modal inputs
+            categoryInput.value = '';
             totalVinsInput.value = '';
             remarksInput.value = '';
             
