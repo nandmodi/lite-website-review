@@ -60,7 +60,8 @@
         
         input[type="text"],
         input[type="date"],
-        input[type="number"] {
+        input[type="number"],
+        select {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
@@ -71,7 +72,8 @@
         
         input[type="text"]:focus,
         input[type="date"]:focus,
-        input[type="number"]:focus {
+        input[type="number"]:focus,
+        select:focus {
             border-color: #3498db;
             outline: none;
         }
@@ -124,8 +126,9 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 10px 15px;
             border-radius: 5px;
-            min-width: 120px;
+            min-width: 140px;
             transition: all 0.3s;
+            position: relative;
         }
         
         .counter.highlight-inc {
@@ -141,11 +144,47 @@
         .counter-value {
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin: 8px 0;
         }
         
         .counter-label {
             font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .counter-buttons {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            top: 5px;
+            left: 0;
+            right: 0;
+            padding: 0 10px;
+        }
+        
+        .counter-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .counter-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .counter-btn:active {
+            transform: scale(0.95);
         }
         
         .submit-btn {
@@ -292,7 +331,15 @@
                 
                 <div class="form-group">
                     <label for="review-by">Review By</label>
-                    <input type="text" id="review-by" placeholder="Enter reviewer name" required>
+                    <select id="review-by" required>
+                        <option value="">Select Reviewer</option>
+                        <option value="Shweta Gupta">Shweta Gupta</option>
+                        <option value="Tannu Kumari">Tannu Kumari</option>
+                        <option value="Karmendra Singh">Karmendra Singh</option>
+                        <option value="Ankit Singh">Ankit Singh</option>
+                        <option value="Vishal Singh">Vishal Singh</option>
+                        <option value="Sumit Rana">Sumit Rana</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">
@@ -358,32 +405,60 @@
             <div class="top-stripe">
                 <div class="counter-container">
                     <div class="counter" id="stock-counter">
-                        <div class="counter-value" id="stock-count">0</div>
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="stock">-</button>
+                            <button class="counter-btn counter-increase" data-counter="stock">+</button>
+                        </div>
                         <div class="counter-label">Stock (1)</div>
+                        <div class="counter-value" id="stock-count">0</div>
                     </div>
                     <div class="counter" id="raw-counter">
-                        <div class="counter-value" id="raw-count">0</div>
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="raw">-</button>
+                            <button class="counter-btn counter-increase" data-counter="raw">+</button>
+                        </div>
                         <div class="counter-label">Raw (2)</div>
+                        <div class="counter-value" id="raw-count">0</div>
                     </div>
                     <div class="counter" id="sequence-issue-counter">
-                        <div class="counter-value" id="sequence-issue-count">0</div>
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="sequenceIssue">-</button>
+                            <button class="counter-btn counter-increase" data-counter="sequenceIssue">+</button>
+                        </div>
                         <div class="counter-label">Sequence Issue (3)</div>
+                        <div class="counter-value" id="sequence-issue-count">0</div>
                     </div>
                     <div class="counter" id="tilt-counter">
-                        <div class="counter-value" id="tilt-count">0</div>
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="tilt">-</button>
+                            <button class="counter-btn counter-increase" data-counter="tilt">+</button>
+                        </div>
                         <div class="counter-label">Tilt (4)</div>
+                        <div class="counter-value" id="tilt-count">0</div>
                     </div>
                     <div class="counter" id="reflection-counter">
-                        <div class="counter-value" id="reflection-count">0</div>
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="reflection">-</button>
+                            <button class="counter-btn counter-increase" data-counter="reflection">+</button>
+                        </div>
                         <div class="counter-label">Reflection (5)</div>
+                        <div class="counter-value" id="reflection-count">0</div>
                     </div>
                     <div class="counter" id="blur-counter">
-                        <div class="counter-value" id="blur-count">0</div>
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="blur">-</button>
+                            <button class="counter-btn counter-increase" data-counter="blur">+</button>
+                        </div>
                         <div class="counter-label">Blur (6)</div>
+                        <div class="counter-value" id="blur-count">0</div>
                     </div>
                     <div class="counter" id="photo-na-counter">
-                        <div class="counter-value" id="photo-na-count">0</div>
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="photoNa">-</button>
+                            <button class="counter-btn counter-increase" data-counter="photoNa">+</button>
+                        </div>
                         <div class="counter-label">Photo NA (7)</div>
+                        <div class="counter-value" id="photo-na-count">0</div>
                     </div>
                 </div>
                 <button id="submit-review" class="btn submit-btn">Submit</button>
@@ -483,6 +558,8 @@
         // Keyboard shortcuts
         document.addEventListener('keydown', handleKeyboardShortcut);
         
+        // Button event listeners (will be added after page transition)
+        
         // Functions
         function goToReviewPage() {
             // Validate required fields
@@ -516,6 +593,55 @@
             
             // Reset counters
             resetCounters();
+            
+            // Add button event listeners
+            setupCounterButtons();
+        }
+        
+        function setupCounterButtons() {
+            // Add event listeners to all increase buttons
+            document.querySelectorAll('.counter-increase').forEach(button => {
+                button.addEventListener('click', function() {
+                    const counterKey = this.getAttribute('data-counter');
+                    increaseCounter(counterKey);
+                });
+            });
+            
+            // Add event listeners to all decrease buttons
+            document.querySelectorAll('.counter-decrease').forEach(button => {
+                button.addEventListener('click', function() {
+                    const counterKey = this.getAttribute('data-counter');
+                    decreaseCounter(counterKey);
+                });
+            });
+        }
+        
+        function increaseCounter(counterKey) {
+            counters[counterKey]++;
+            highlightCounter(getCounterElement(counterKey), true);
+            updateCounterDisplays();
+        }
+        
+        function decreaseCounter(counterKey) {
+            if (counters[counterKey] > 0) {
+                counters[counterKey]--;
+                highlightCounter(getCounterElement(counterKey), false);
+                updateCounterDisplays();
+            }
+        }
+        
+        function getCounterElement(counterKey) {
+            const counterMap = {
+                'stock': stockCounter,
+                'raw': rawCounter,
+                'sequenceIssue': sequenceIssueCounter,
+                'tilt': tiltCounter,
+                'reflection': reflectionCounter,
+                'blur': blurCounter,
+                'photoNa': photoNaCounter
+            };
+            
+            return counterMap[counterKey];
         }
         
         function resetCounters() {
@@ -582,17 +708,11 @@
                 
                 if (isShiftPressed) {
                     // Decrease counter
-                    if (counters[counterKey] > 0) {
-                        counters[counterKey]--;
-                        highlightCounter(counterElement, false);
-                    }
+                    decreaseCounter(counterKey);
                 } else {
                     // Increase counter
-                    counters[counterKey]++;
-                    highlightCounter(counterElement, true);
+                    increaseCounter(counterKey);
                 }
-                
-                updateCounterDisplays();
             }
         }
         
@@ -693,6 +813,16 @@
             // Clear modal inputs
             totalVinsInput.value = '';
             remarksInput.value = '';
+            
+            // Clear login form fields
+            dateInput.value = today; // Reset to today's date
+            reviewByInput.value = '';
+            enterpriseIdInput.value = '';
+            teamIdInput.value = '';
+            websiteUrlInput.value = '';
+            
+            // Clear iframe
+            websiteFrame.src = '';
             
             // Go back to login page
             reviewPage.classList.remove('active');
