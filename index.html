@@ -402,23 +402,23 @@
                     </div>
                     <div class="shortcut-item">
                         <div class="key">3</div>
-                        <div class="shortcut-description">Increase Sequence Issue count</div>
+                        <div class="shortcut-description">Increase Photo NA count</div>
                     </div>
                     <div class="shortcut-item">
                         <div class="key">4</div>
-                        <div class="shortcut-description">Increase Tilt count</div>
+                        <div class="shortcut-description">Increase Sequence Issue count</div>
                     </div>
                     <div class="shortcut-item">
                         <div class="key">5</div>
-                        <div class="shortcut-description">Increase Reflection count</div>
+                        <div class="shortcut-description">Increase Tilt count</div>
                     </div>
                     <div class="shortcut-item">
                         <div class="key">6</div>
-                        <div class="shortcut-description">Increase Blur count</div>
+                        <div class="shortcut-description">Increase Reflection count</div>
                     </div>
                     <div class="shortcut-item">
                         <div class="key">7</div>
-                        <div class="shortcut-description">Increase Photo NA count</div>
+                        <div class="shortcut-description">Increase Blur count</div>
                     </div>
                     <div class="shortcut-item">
                         <div class="key key-shift">Shift + Key</div>
@@ -451,45 +451,50 @@
                         <div class="counter-label">Raw (2)</div>
                         <div class="counter-value" id="raw-count">0</div>
                     </div>
-                    <div class="counter" id="sequence-issue-counter">
-                        <div class="counter-buttons">
-                            <button class="counter-btn counter-decrease" data-counter="sequenceIssue">-</button>
-                            <button class="counter-btn counter-increase" data-counter="sequenceIssue">+</button>
-                        </div>
-                        <div class="counter-label">Sequence Issue (3)</div>
-                        <div class="counter-value" id="sequence-issue-count">0</div>
-                    </div>
-                    <div class="counter" id="tilt-counter">
-                        <div class="counter-buttons">
-                            <button class="counter-btn counter-decrease" data-counter="tilt">-</button>
-                            <button class="counter-btn counter-increase" data-counter="tilt">+</button>
-                        </div>
-                        <div class="counter-label">Tilt (4)</div>
-                        <div class="counter-value" id="tilt-count">0</div>
-                    </div>
-                    <div class="counter" id="reflection-counter">
-                        <div class="counter-buttons">
-                            <button class="counter-btn counter-decrease" data-counter="reflection">-</button>
-                            <button class="counter-btn counter-increase" data-counter="reflection">+</button>
-                        </div>
-                        <div class="counter-label">Reflection (5)</div>
-                        <div class="counter-value" id="reflection-count">0</div>
-                    </div>
-                    <div class="counter" id="blur-counter">
-                        <div class="counter-buttons">
-                            <button class="counter-btn counter-decrease" data-counter="blur">-</button>
-                            <button class="counter-btn counter-increase" data-counter="blur">+</button>
-                        </div>
-                        <div class="counter-label">Blur (6)</div>
-                        <div class="counter-value" id="blur-count">0</div>
-                    </div>
+                    <!-- MOVED Photo NA to 3rd position -->
                     <div class="counter" id="photo-na-counter">
                         <div class="counter-buttons">
                             <button class="counter-btn counter-decrease" data-counter="photoNa">-</button>
                             <button class="counter-btn counter-increase" data-counter="photoNa">+</button>
                         </div>
-                        <div class="counter-label">Photo NA (7)</div>
+                        <div class="counter-label">Photo NA (3)</div>
                         <div class="counter-value" id="photo-na-count">0</div>
+                    </div>
+                    <!-- Sequence Issue now 4th -->
+                    <div class="counter" id="sequence-issue-counter">
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="sequenceIssue">-</button>
+                            <button class="counter-btn counter-increase" data-counter="sequenceIssue">+</button>
+                        </div>
+                        <div class="counter-label">Sequence Issue (4)</div>
+                        <div class="counter-value" id="sequence-issue-count">0</div>
+                    </div>
+                    <!-- Tilt now 5th -->
+                    <div class="counter" id="tilt-counter">
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="tilt">-</button>
+                            <button class="counter-btn counter-increase" data-counter="tilt">+</button>
+                        </div>
+                        <div class="counter-label">Tilt (5)</div>
+                        <div class="counter-value" id="tilt-count">0</div>
+                    </div>
+                    <!-- Reflection now 6th -->
+                    <div class="counter" id="reflection-counter">
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="reflection">-</button>
+                            <button class="counter-btn counter-increase" data-counter="reflection">+</button>
+                        </div>
+                        <div class="counter-label">Reflection (6)</div>
+                        <div class="counter-value" id="reflection-count">0</div>
+                    </div>
+                    <!-- Blur now 7th -->
+                    <div class="counter" id="blur-counter">
+                        <div class="counter-buttons">
+                            <button class="counter-btn counter-decrease" data-counter="blur">-</button>
+                            <button class="counter-btn counter-increase" data-counter="blur">+</button>
+                        </div>
+                        <div class="counter-label">Blur (7)</div>
+                        <div class="counter-value" id="blur-count">0</div>
                     </div>
                 </div>
                 <button id="submit-review" class="btn submit-btn">Submit</button>
@@ -732,15 +737,15 @@
             const key = e.key;
             const isShiftPressed = e.shiftKey;
             
-            // Map keys to counters
+            // Updated keyMap to reflect new order (Photo NA is now 3rd)
             const keyMap = {
                 '1': {key: 'stock', element: stockCounter},
                 '2': {key: 'raw', element: rawCounter},
-                '3': {key: 'sequenceIssue', element: sequenceIssueCounter},
-                '4': {key: 'tilt', element: tiltCounter},
-                '5': {key: 'reflection', element: reflectionCounter},
-                '6': {key: 'blur', element: blurCounter},
-                '7': {key: 'photoNa', element: photoNaCounter}
+                '3': {key: 'photoNa', element: photoNaCounter}, // Photo NA is now key 3
+                '4': {key: 'sequenceIssue', element: sequenceIssueCounter},
+                '5': {key: 'tilt', element: tiltCounter},
+                '6': {key: 'reflection', element: reflectionCounter},
+                '7': {key: 'blur', element: blurCounter}
             };
             
             if (key in keyMap) {
